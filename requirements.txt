@@ -1,0 +1,17 @@
+# ── Week 1 Core ──────────────────────────────────────────────
+datasets==2.19.1          # HuggingFace dataset downloader
+sentence-transformers==2.7.0  # text → embedding vectors
+faiss-cpu==1.9.0.post1    # vector similarity search (Facebook AI)
+groq==0.9.0               # free LLM API (Llama3 for free)
+
+# ── Week 2 additions (install these in week 2) ────────────────
+# bert-score==0.3.13       # BERTScore for SelfCheckGPT
+# langchain==0.2.5         # optional RAG framework wrapper
+
+# ── Utilities (always needed) ─────────────────────────────────
+numpy==1.26.4
+pandas==2.2.2
+matplotlib==3.9.0
+tqdm==4.66.4
+reportlab==4.2.0          # create domain_note.pdf
+python-dotenv==1.0.1      # load GROQ_API_KEY from .env file

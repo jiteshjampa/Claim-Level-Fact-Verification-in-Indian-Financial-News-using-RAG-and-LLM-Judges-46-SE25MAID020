@@ -1,0 +1,26 @@
+{
+  "query": "What did the RBI decide about interest rates?",
+  "answer": "Based on the retrieved sources: The RBI raised the repo rate by 25 basis points to 6.75 percent. [MOCK ANSWER \u2014 set GROQ_API_KEY to generate real answers]",
+  "retrieved_sources": [
+    "Article_1688",
+    "Article_1663",
+    "Article_848"
+  ],
+  "similarity_scores": [
+    0.602,
+    0.596,
+    0.587
+  ],
+  "selfcheck": {
+    "consistency_score": 1.0,
+    "hallucination_signal": "LOW",
+    "method": "jaccard",
+    "n_samples": 3,
+    "pairwise_scores": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "interpretation": "Model is consistent \u2192 likely knows the answer \u2192 low hallucination risk"
+  }
+}
