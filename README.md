@@ -93,12 +93,10 @@ Groq gives free access to: Llama3-8B, Llama3-70B, Mixtral-8x7B
 
 ---
 
-## Grading Checklist
+## Contributors
+1 M Tridev -SE25MAID026
+2 M. Mahesh -SE25MAID037
+3 T.Varun - SE25MAID009
+4 J Jitesh Reddy -SE25MAID020
 
-| Component | Points | Status |
-|-----------|--------|--------|
-| Domain Note + Research | 10 | ✓ domain_note.pdf |
-| Code Quality | 20 | ✓ modular src/ scripts |
-| Results & Experiments | 30 | ✓ validator vs selfcheck ablation |
-| Analysis & Report | 20 | Week 2 |
-| Milestone Demos | 20 | Live demo via main.py |
+
