@@ -1,0 +1,15 @@
+.venv/
+venv/
+__pycache__/
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.h5
+*.zip
+*.tar
+*.rar
+node_modules/
+dist/
+build/
+.env
