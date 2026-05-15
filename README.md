@@ -1,5 +1,5 @@
 # Financial RAG + Hallucination Detection
-
+**WEB LINK **: https://halrag-git-main-jitesh-reddys-projects.vercel.app/
 **CS5202 — Generative AI & LLMs · Spring 2026**
 
 > Retrieval-Augmented Generation over 26,000 Indian financial news articles with dual-layer hallucination detection: LLM-as-Judge Validator + SelfCheckGPT consistency scoring.
