@@ -1,0 +1,31 @@
+question,avg_retrieval_score,top_source,hallucination_rate,validator_verdict,selfcheck_score,selfcheck_signal,methods_agree,total_tokens
+What did the RBI decide about interest rates?,0.595,Article_1688,0.0,MOCK_RESULT,1.0,LOW,YES,0
+What is the current repo rate set by RBI?,0.64,Article_1168,0.0,MOCK_RESULT,1.0,LOW,YES,0
+How did RBI address inflation in its monetary policy?,0.646,Article_382,0.0,MOCK_RESULT,1.0,LOW,YES,0
+How did Infosys perform in its latest quarterly results,0.678,Article_1153,0.0,MOCK_RESULT,1.0,LOW,YES,0
+What were TCS's revenue and profit figures for the rece,0.624,Article_298,0.0,MOCK_RESULT,1.0,LOW,YES,0
+How did Reliance Industries perform in its latest earni,0.654,Article_1946,0.0,MOCK_RESULT,1.0,LOW,YES,0
+What guidance did Wipro give for the next quarter?,0.552,Article_298,0.0,MOCK_RESULT,1.0,LOW,YES,0
+What new rules did SEBI propose for F&O trading?,0.567,Article_399,0.0,MOCK_RESULT,1.0,LOW,YES,0
+What changes did SEBI make to mutual fund regulations?,0.688,Article_1049,0.0,MOCK_RESULT,1.0,LOW,YES,0
+How did SEBI address insider trading recently?,0.587,Article_844,0.0,MOCK_RESULT,1.0,LOW,YES,0
+What is India's GDP growth rate according to the IMF?,0.693,Article_822,0.0,MOCK_RESULT,1.0,LOW,YES,0
+How has India's current account deficit changed recentl,0.681,Article_345,0.0,MOCK_RESULT,1.0,LOW,YES,0
+What is the status of India's foreign exchange reserves,0.606,Article_1940,0.0,MOCK_RESULT,1.0,LOW,YES,0
+How did HDFC Bank perform in its recent quarter?,0.638,Article_81,0.0,MOCK_RESULT,1.0,LOW,YES,0
+What happened with Yes Bank's financial recovery?,0.641,Article_213,0.0,MOCK_RESULT,1.0,LOW,YES,0
+What is the NPA situation in Indian public sector banks,0.667,Article_991,0.0,MOCK_RESULT,1.0,LOW,YES,0
+What caused the recent Sensex and Nifty movement?,0.629,Article_467,0.0,MOCK_RESULT,1.0,LOW,YES,0
+How did FII and DII flows affect Indian markets recentl,0.636,Article_873,0.0,MOCK_RESULT,1.0,LOW,YES,0
+What is the outlook for the Indian rupee against the do,0.696,Article_446,0.0,MOCK_RESULT,1.0,LOW,YES,0
+How have crude oil prices impacted India's trade balanc,0.712,Article_1495,0.0,MOCK_RESULT,1.0,LOW,YES,0
+What is the current gold import situation in India?,0.698,Article_1337,0.0,MOCK_RESULT,1.0,LOW,YES,0
+What sectors received the most FDI in India recently?,0.637,Article_1410,0.0,MOCK_RESULT,1.0,LOW,YES,0
+How did India's startup funding environment change last,0.612,Article_762,0.0,MOCK_RESULT,1.0,LOW,YES,0
+What is the latest yield on 10-year Indian government b,0.632,Article_1163,0.0,MOCK_RESULT,1.0,LOW,YES,0
+How has India's fiscal deficit been tracking against ta,0.684,Article_570,0.0,MOCK_RESULT,1.0,LOW,YES,0
+What major IPOs were listed on Indian exchanges recentl,0.589,Article_318,0.0,MOCK_RESULT,1.0,LOW,YES,0
+How did recent SME IPOs perform on listing day?,0.536,Article_1679,0.0,MOCK_RESULT,1.0,LOW,YES,0
+What regulatory changes affected Indian insurance compa,0.615,Article_1578,0.0,MOCK_RESULT,1.0,LOW,YES,0
+How is UPI transaction volume trending in India?,0.545,Article_261,0.0,MOCK_RESULT,1.0,LOW,YES,0
+How did India's exports perform in the recent month?,0.728,Article_1804,0.0,MOCK_RESULT,1.0,LOW,YES,0

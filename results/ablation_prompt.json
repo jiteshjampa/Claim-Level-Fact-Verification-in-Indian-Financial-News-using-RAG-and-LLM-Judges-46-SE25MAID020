@@ -1,0 +1,166 @@
+{
+  "ablation": "prompt_variant",
+  "questions": [
+    "What did the RBI decide about interest rates?",
+    "How did Infosys perform in Q3?",
+    "What new rules did SEBI propose for F&O trading?",
+    "What is India's GDP growth rate?",
+    "How did HDFC Bank perform in its recent quarter?"
+  ],
+  "results": {
+    "strict": {
+      "prompt_variant": "strict",
+      "avg_hallucination_rate": 0.1,
+      "per_question": [
+        {
+          "question": "What did the RBI decide about interest rates?",
+          "hallucination_rate": 0.1,
+          "verdict": "MOSTLY_RELIABLE",
+          "supported": 3,
+          "unsupported": 1,
+          "contradicted": 0,
+          "mock": true
+        },
+        {
+          "question": "How did Infosys perform in Q3?",
+          "hallucination_rate": 0.1,
+          "verdict": "MOSTLY_RELIABLE",
+          "supported": 3,
+          "unsupported": 1,
+          "contradicted": 0,
+          "mock": true
+        },
+        {
+          "question": "What new rules did SEBI propose for F&O trading?",
+          "hallucination_rate": 0.1,
+          "verdict": "MOSTLY_RELIABLE",
+          "supported": 3,
+          "unsupported": 1,
+          "contradicted": 0,
+          "mock": true
+        },
+        {
+          "question": "What is India's GDP growth rate?",
+          "hallucination_rate": 0.1,
+          "verdict": "MOSTLY_RELIABLE",
+          "supported": 3,
+          "unsupported": 1,
+          "contradicted": 0,
+          "mock": true
+        },
+        {
+          "question": "How did HDFC Bank perform in its recent quarter?",
+          "hallucination_rate": 0.1,
+          "verdict": "MOSTLY_RELIABLE",
+          "supported": 3,
+          "unsupported": 1,
+          "contradicted": 0,
+          "mock": true
+        }
+      ]
+    },
+    "lenient": {
+      "prompt_variant": "lenient",
+      "avg_hallucination_rate": 0.05,
+      "per_question": [
+        {
+          "question": "What did the RBI decide about interest rates?",
+          "hallucination_rate": 0.05,
+          "verdict": "MOSTLY_RELIABLE",
+          "supported": 3,
+          "unsupported": 0,
+          "contradicted": 0,
+          "mock": true
+        },
+        {
+          "question": "How did Infosys perform in Q3?",
+          "hallucination_rate": 0.05,
+          "verdict": "MOSTLY_RELIABLE",
+          "supported": 3,
+          "unsupported": 0,
+          "contradicted": 0,
+          "mock": true
+        },
+        {
+          "question": "What new rules did SEBI propose for F&O trading?",
+          "hallucination_rate": 0.05,
+          "verdict": "MOSTLY_RELIABLE",
+          "supported": 3,
+          "unsupported": 0,
+          "contradicted": 0,
+          "mock": true
+        },
+        {
+          "question": "What is India's GDP growth rate?",
+          "hallucination_rate": 0.05,
+          "verdict": "MOSTLY_RELIABLE",
+          "supported": 3,
+          "unsupported": 0,
+          "contradicted": 0,
+          "mock": true
+        },
+        {
+          "question": "How did HDFC Bank perform in its recent quarter?",
+          "hallucination_rate": 0.05,
+          "verdict": "MOSTLY_RELIABLE",
+          "supported": 3,
+          "unsupported": 0,
+          "contradicted": 0,
+          "mock": true
+        }
+      ]
+    },
+    "chain_of_thought": {
+      "prompt_variant": "chain_of_thought",
+      "avg_hallucination_rate": 0.05,
+      "per_question": [
+        {
+          "question": "What did the RBI decide about interest rates?",
+          "hallucination_rate": 0.05,
+          "verdict": "MOSTLY_RELIABLE",
+          "supported": 3,
+          "unsupported": 0,
+          "contradicted": 0,
+          "mock": true
+        },
+        {
+          "question": "How did Infosys perform in Q3?",
+          "hallucination_rate": 0.05,
+          "verdict": "MOSTLY_RELIABLE",
+          "supported": 3,
+          "unsupported": 0,
+          "contradicted": 0,
+          "mock": true
+        },
+        {
+          "question": "What new rules did SEBI propose for F&O trading?",
+          "hallucination_rate": 0.05,
+          "verdict": "MOSTLY_RELIABLE",
+          "supported": 3,
+          "unsupported": 0,
+          "contradicted": 0,
+          "mock": true
+        },
+        {
+          "question": "What is India's GDP growth rate?",
+          "hallucination_rate": 0.05,
+          "verdict": "MOSTLY_RELIABLE",
+          "supported": 3,
+          "unsupported": 0,
+          "contradicted": 0,
+          "mock": true
+        },
+        {
+          "question": "How did HDFC Bank perform in its recent quarter?",
+          "hallucination_rate": 0.05,
+          "verdict": "MOSTLY_RELIABLE",
+          "supported": 3,
+          "unsupported": 0,
+          "contradicted": 0,
+          "mock": true
+        }
+      ]
+    }
+  },
+  "conclusion": "Strict prompt finds more hallucinations. CoT gives better reasoning per flag. Lenient misses edge cases. Use strict for precision, CoT for recall."
+}

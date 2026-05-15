@@ -1,0 +1,345 @@
+{
+  "ablation": "chunk_size",
+  "questions": [
+    "What did the RBI decide about interest rates?",
+    "How did Infosys perform in Q3?",
+    "What new rules did SEBI propose for F&O trading?",
+    "What is India's GDP growth rate?",
+    "How did HDFC Bank perform in its recent quarter?",
+    "What caused the recent Sensex movement?",
+    "How has India's fiscal deficit changed?",
+    "What is the NPA situation in Indian banks?",
+    "How did FII flows affect Indian markets?",
+    "What is the outlook for the Indian rupee?"
+  ],
+  "results": {
+    "150": {
+      "chunk_size": 150,
+      "overlap": 25,
+      "n_chunks": 2851,
+      "avg_retrieval_score": 0.6099,
+      "avg_top1_score": 0.6292,
+      "per_question": [
+        {
+          "question": "What did the RBI decide about interest rates?",
+          "top_scores": [
+            0.571,
+            0.559,
+            0.556
+          ],
+          "avg_score": 0.5622,
+          "top1_score": 0.5711
+        },
+        {
+          "question": "How did Infosys perform in Q3?",
+          "top_scores": [
+            0.552,
+            0.459,
+            0.399
+          ],
+          "avg_score": 0.4701,
+          "top1_score": 0.5525
+        },
+        {
+          "question": "What new rules did SEBI propose for F&O trading?",
+          "top_scores": [
+            0.615,
+            0.592,
+            0.577
+          ],
+          "avg_score": 0.5945,
+          "top1_score": 0.6146
+        },
+        {
+          "question": "What is India's GDP growth rate?",
+          "top_scores": [
+            0.671,
+            0.667,
+            0.666
+          ],
+          "avg_score": 0.668,
+          "top1_score": 0.671
+        },
+        {
+          "question": "How did HDFC Bank perform in its recent quarter?",
+          "top_scores": [
+            0.667,
+            0.647,
+            0.63
+          ],
+          "avg_score": 0.6482,
+          "top1_score": 0.6674
+        },
+        {
+          "question": "What caused the recent Sensex movement?",
+          "top_scores": [
+            0.603,
+            0.587,
+            0.56
+          ],
+          "avg_score": 0.5837,
+          "top1_score": 0.6034
+        },
+        {
+          "question": "How has India's fiscal deficit changed?",
+          "top_scores": [
+            0.68,
+            0.668,
+            0.659
+          ],
+          "avg_score": 0.669,
+          "top1_score": 0.6799
+        },
+        {
+          "question": "What is the NPA situation in Indian banks?",
+          "top_scores": [
+            0.644,
+            0.639,
+            0.623
+          ],
+          "avg_score": 0.6352,
+          "top1_score": 0.6437
+        },
+        {
+          "question": "How did FII flows affect Indian markets?",
+          "top_scores": [
+            0.61,
+            0.606,
+            0.605
+          ],
+          "avg_score": 0.607,
+          "top1_score": 0.6104
+        },
+        {
+          "question": "What is the outlook for the Indian rupee?",
+          "top_scores": [
+            0.678,
+            0.658,
+            0.648
+          ],
+          "avg_score": 0.6615,
+          "top1_score": 0.6777
+        }
+      ]
+    },
+    "250": {
+      "chunk_size": 250,
+      "overlap": 40,
+      "n_chunks": 1775,
+      "avg_retrieval_score": 0.5921,
+      "avg_top1_score": 0.6174,
+      "per_question": [
+        {
+          "question": "What did the RBI decide about interest rates?",
+          "top_scores": [
+            0.557,
+            0.549,
+            0.537
+          ],
+          "avg_score": 0.5478,
+          "top1_score": 0.5572
+        },
+        {
+          "question": "How did Infosys perform in Q3?",
+          "top_scores": [
+            0.546,
+            0.395,
+            0.393
+          ],
+          "avg_score": 0.4451,
+          "top1_score": 0.5464
+        },
+        {
+          "question": "What new rules did SEBI propose for F&O trading?",
+          "top_scores": [
+            0.583,
+            0.518,
+            0.515
+          ],
+          "avg_score": 0.5385,
+          "top1_score": 0.5827
+        },
+        {
+          "question": "What is India's GDP growth rate?",
+          "top_scores": [
+            0.637,
+            0.633,
+            0.633
+          ],
+          "avg_score": 0.6343,
+          "top1_score": 0.6369
+        },
+        {
+          "question": "How did HDFC Bank perform in its recent quarter?",
+          "top_scores": [
+            0.652,
+            0.627,
+            0.561
+          ],
+          "avg_score": 0.6131,
+          "top1_score": 0.6517
+        },
+        {
+          "question": "What caused the recent Sensex movement?",
+          "top_scores": [
+            0.596,
+            0.596,
+            0.596
+          ],
+          "avg_score": 0.5964,
+          "top1_score": 0.5964
+        },
+        {
+          "question": "How has India's fiscal deficit changed?",
+          "top_scores": [
+            0.664,
+            0.66,
+            0.66
+          ],
+          "avg_score": 0.6617,
+          "top1_score": 0.6644
+        },
+        {
+          "question": "What is the NPA situation in Indian banks?",
+          "top_scores": [
+            0.661,
+            0.636,
+            0.614
+          ],
+          "avg_score": 0.6371,
+          "top1_score": 0.6609
+        },
+        {
+          "question": "How did FII flows affect Indian markets?",
+          "top_scores": [
+            0.625,
+            0.596,
+            0.584
+          ],
+          "avg_score": 0.6015,
+          "top1_score": 0.6246
+        },
+        {
+          "question": "What is the outlook for the Indian rupee?",
+          "top_scores": [
+            0.653,
+            0.643,
+            0.639
+          ],
+          "avg_score": 0.6451,
+          "top1_score": 0.6526
+        }
+      ]
+    },
+    "400": {
+      "chunk_size": 400,
+      "overlap": 60,
+      "n_chunks": 1158,
+      "avg_retrieval_score": 0.5629,
+      "avg_top1_score": 0.5855,
+      "per_question": [
+        {
+          "question": "What did the RBI decide about interest rates?",
+          "top_scores": [
+            0.557,
+            0.549,
+            0.537
+          ],
+          "avg_score": 0.5478,
+          "top1_score": 0.5572
+        },
+        {
+          "question": "How did Infosys perform in Q3?",
+          "top_scores": [
+            0.421,
+            0.339,
+            0.299
+          ],
+          "avg_score": 0.3529,
+          "top1_score": 0.4208
+        },
+        {
+          "question": "What new rules did SEBI propose for F&O trading?",
+          "top_scores": [
+            0.518,
+            0.494,
+            0.476
+          ],
+          "avg_score": 0.496,
+          "top1_score": 0.5177
+        },
+        {
+          "question": "What is India's GDP growth rate?",
+          "top_scores": [
+            0.614,
+            0.609,
+            0.609
+          ],
+          "avg_score": 0.6108,
+          "top1_score": 0.6138
+        },
+        {
+          "question": "How did HDFC Bank perform in its recent quarter?",
+          "top_scores": [
+            0.561,
+            0.515,
+            0.494
+          ],
+          "avg_score": 0.5234,
+          "top1_score": 0.5608
+        },
+        {
+          "question": "What caused the recent Sensex movement?",
+          "top_scores": [
+            0.572,
+            0.572,
+            0.572
+          ],
+          "avg_score": 0.5721,
+          "top1_score": 0.5721
+        },
+        {
+          "question": "How has India's fiscal deficit changed?",
+          "top_scores": [
+            0.684,
+            0.662,
+            0.66
+          ],
+          "avg_score": 0.6689,
+          "top1_score": 0.6841
+        },
+        {
+          "question": "What is the NPA situation in Indian banks?",
+          "top_scores": [
+            0.676,
+            0.632,
+            0.593
+          ],
+          "avg_score": 0.6336,
+          "top1_score": 0.676
+        },
+        {
+          "question": "How did FII flows affect Indian markets?",
+          "top_scores": [
+            0.6,
+            0.586,
+            0.569
+          ],
+          "avg_score": 0.5849,
+          "top1_score": 0.6003
+        },
+        {
+          "question": "What is the outlook for the Indian rupee?",
+          "top_scores": [
+            0.653,
+            0.636,
+            0.626
+          ],
+          "avg_score": 0.6382,
+          "top1_score": 0.6526
+        }
+      ]
+    }
+  },
+  "conclusion": "See avg_retrieval_score across chunk sizes. Best size = highest avg score with fewest chunks (efficiency)."
+}

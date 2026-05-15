@@ -1,152 +1,205 @@
 """
-main.py  ─  Full Week 1 Pipeline Demo
-======================================
-
-This is the script you run during your Milestone 1 demo.
-It shows the complete pipeline end-to-end.
+main.py — Full RAG + Hallucination Detection Pipeline
+CS5202 · Indian Financial News · Spring 2026
 
 Usage:
-    python main.py --sample           # use sample data (no HuggingFace download)
-    python main.py                    # use real dataset (needs download first)
-    python main.py --query "What did RBI do?"   # custom query
+    python main.py --query "What did RBI do with interest rates?"
+    python main.py --query "What are SEBI regulations for F&O?" --top_k 5 --chunk_size 250
+    python main.py --evaluate          # run full 30-question evaluation + ablations
+    python main.py --compare_papers    # print paper comparison table
+
+Environment:
+    export GROQ_API_KEY="gsk_..."
 """
 
+import argparse
+import json
 import os
 import sys
-import json
-import argparse
+import time
+
+sys.path.insert(0, "src")
+
+SEED = 42
 
 
-def run_pipeline(query: str, use_sample: bool = False):
-    """Run the full RAG pipeline for a query and show results."""
+def run_pipeline(query: str, top_k: int = 3, chunk_size: int = 250,
+                 prompt_variant: str = "strict", n_selfcheck: int = 3,
+                 use_bertscore: bool = True):
+    """
+    Run the full 5-stage pipeline for a single query and print results.
 
-    print("\n" + "=" * 65)
-    print("  FINANCIAL RAG + HALLUCINATION VALIDATOR — WEEK 1 DEMO")
-    print("=" * 65)
+    Stages:
+        1. Load dataset and build FAISS index
+        2. Retrieve top-k relevant chunks
+        3. Generate RAG answer (Groq / Llama3-8B)
+        4. Validate with LLM-as-Judge
+        5. SelfCheckGPT consistency scoring
+    """
+    from load_dataset import load_local
+    from retriever import build_index, retrieve
+    from generator import generate_answer, generate_samples
+    from validator import validate
+    from selfcheck import selfcheck
 
-    # ── STEP 1: Load data ──────────────────────────────────────
-    print("\n[STEP 1] Loading dataset...")
-    data_path = "data/financial_news.json"
+    print("\n" + "=" * 70)
+    print("  FINANCIAL RAG + HALLUCINATION DETECTION PIPELINE")
+    print("=" * 70)
+    print(f"  Query       : {query}")
+    print(f"  Top-K       : {top_k}  |  Chunk size: {chunk_size}w  |  Prompt: {prompt_variant}")
+    print("=" * 70)
 
-    if not os.path.exists(data_path):
-        print("Dataset not found. Loading sample data...")
-        from src.load_dataset import _save_sample_data
-        _save_sample_data(data_path)
+    # Stage 1: Load + Index
+    print("\n[1/5] Loading dataset ...")
+    articles = load_local()
+    print(f"      {len(articles)} articles loaded.")
 
-    with open(data_path, encoding='utf-8') as f:
-        articles = json.load(f)
-    print(f"  ✓ Loaded {len(articles)} articles")
+    print("\n[2/5] Building/loading FAISS index ...")
+    index, chunks = build_index(articles, chunk_size=chunk_size, overlap=40)
+    print(f"      {len(chunks)} chunks indexed.")
 
-    # ── STEP 2: Build / Load FAISS Index ──────────────────────
-    print("\n[STEP 2] Setting up FAISS index (embedding store)...")
-    sys.path.insert(0, "src")
-    from retriever import FinancialRetriever
+    # Stage 2: Retrieve
+    print(f"\n[3/5] Retrieving top-{top_k} chunks ...")
+    retrieved, ret_scores = retrieve(query, index, chunks, top_k=top_k)
+    avg_score = sum(ret_scores) / len(ret_scores) if ret_scores else 0
+    print(f"      Avg retrieval score: {avg_score:.4f}")
+    for i, (c, s) in enumerate(zip(retrieved, ret_scores), 1):
+        print(f"      [{i}] score={s:.3f} | {c.get('title','')[:60]} | {c['text'][:80]}...")
 
-    retriever = FinancialRetriever()
-    try:
-        retriever.load_index()
-        print("  ✓ Index loaded from disk (pre-built)")
-    except FileNotFoundError:
-        print("  Building index (first time — may take a few minutes)...")
-        retriever.build_index(articles)
-        print("  ✓ Index built and saved")
+    # Stage 3: Generate
+    print("\n[4/5] Generating RAG answer (Groq / Llama3-8B) ...")
+    t0 = time.time()
+    answer = generate_answer(query, retrieved)
+    gen_time = time.time() - t0
+    print(f"      Generated in {gen_time:.1f}s")
+    print(f"\n  ── ANSWER ──────────────────────────────────────────────────────")
+    print(f"  {answer}")
+    print(f"  ────────────────────────────────────────────────────────────────")
 
-    # ── STEP 3: Retrieve relevant chunks ──────────────────────
-    print(f"\n[STEP 3] Retrieving top-3 chunks for query:")
-    print(f"  Query: '{query}'")
+    # Stage 4: Validate
+    print(f"\n[5a/5] Running LLM-as-Judge validator (variant={prompt_variant}) ...")
+    val = validate(answer, retrieved, prompt_variant=prompt_variant)
+    print(f"\n  ── VALIDATION RESULTS ──────────────────────────────────────────")
+    print(f"  Verdict          : {val['verdict']}")
+    print(f"  Hallucination %  : {val['hallucination_rate']:.1%}")
+    print(f"  Support %        : {val['supported_rate']:.1%}")
+    print(f"  Counts           : SUPPORTED={val['counts']['SUPPORTED']}  "
+          f"UNSUPPORTED={val['counts']['UNSUPPORTED']}  "
+          f"CONTRADICTED={val['counts']['CONTRADICTED']}")
+    print(f"\n  Per-sentence labels:")
+    for item in val["sentence_labels"]:
+        emoji = "✓" if item["label"] == "SUPPORTED" else ("✗" if item["label"] == "CONTRADICTED" else "?")
+        print(f"  {emoji} [{item['label']:12s}] {item['sentence'][:80]}")
+        if item.get("reason"):
+            print(f"             → {item['reason'][:80]}")
+    print(f"  ────────────────────────────────────────────────────────────────")
 
-    results = retriever.retrieve(query, top_k=3)
+    # Stage 5: SelfCheckGPT
+    print(f"\n[5b/5] Running SelfCheckGPT ({n_selfcheck} samples) ...")
+    samples = generate_samples(query, retrieved, n=n_selfcheck)
+    sc = selfcheck(samples, use_bertscore=use_bertscore)
+    print(f"\n  ── SELFCHECK RESULTS ───────────────────────────────────────────")
+    print(f"  Consistency score: {sc['consistency_score']:.4f}  ({sc['method']})")
+    print(f"  Risk level       : {sc['risk_level']}")
+    print(f"  Pairwise scores  : {sc['pairwise_scores']}")
+    print(f"  ────────────────────────────────────────────────────────────────")
 
-    print(f"  ✓ Retrieved {len(results)} chunks:")
-    for i, (chunk, meta, score) in enumerate(results, 1):
-        print(f"    {i}. [{meta['title']}]  similarity={score:.3f}")
-        print(f"       Preview: {chunk[:100]}...")
+    # Agreement
+    agreement = (
+        (sc["risk_level"] == "LOW" and val["hallucination_rate"] < 0.20) or
+        (sc["risk_level"] == "HIGH" and val["hallucination_rate"] >= 0.20)
+    )
+    print(f"\n  ── METHOD AGREEMENT ────────────────────────────────────────────")
+    print(f"  Validator says   : {val['verdict']}")
+    print(f"  SelfCheck says   : {sc['risk_level']} risk")
+    print(f"  Methods agree    : {'YES ✓' if agreement else 'NO (disagreement case)'}")
+    print(f"  ────────────────────────────────────────────────────────────────\n")
 
-    context_str = retriever.format_context(results)
-
-    # ── STEP 4: Generate Answer ────────────────────────────────
-    print("\n[STEP 4] Generating answer with RAG...")
-    api_key = os.environ.get("GROQ_API_KEY", "")
-
-    if not api_key:
-        print("  ⚠ GROQ_API_KEY not set — showing mock answer for demo")
-        answer = (
-            "Based on the retrieved sources: The RBI raised the repo rate "
-            "by 25 basis points to 6.75 percent. [MOCK ANSWER — set GROQ_API_KEY to generate real answers]"
-        )
-        tokens = {"prompt": 0, "completion": 0, "total": 0}
-    else:
-        from generator import RAGGenerator
-        gen    = RAGGenerator()
-        output = gen.generate(query, results)
-        answer = output["answer"]
-        tokens = {
-            "prompt":     output["prompt_tokens"],
-            "completion": output["completion_tokens"],
-            "total":      output["total_tokens"]
-        }
-
-    print(f"\n  ANSWER:\n  {'─'*55}")
-    for line in answer.split(". "):
-        print(f"  {line.strip()}.")
-    print(f"  {'─'*55}")
-    if api_key:
-        print(f"  Tokens: prompt={tokens['prompt']}, answer={tokens['completion']}, total={tokens['total']}")
-
-    # ── STEP 5: Selfcheck (no API needed) ─────────────────────
-    print("\n[STEP 5] SelfCheckGPT consistency demo...")
-    from selfcheck import SelfCheckGPT, jaccard_overlap
-
-    # Demo with mock samples (Week 2 will use real API samples)
-    mock_samples = [answer, answer, answer]   # identical → perfect consistency
-    checker   = SelfCheckGPT(method="jaccard")
-    sc_result = checker.score(mock_samples)
-    print(f"  Consistency score: {sc_result['consistency_score']} → {sc_result['hallucination_signal']} risk")
-    print(f"  (Week 2: will generate 3 real samples with temperature=0.7)")
-
-    # ── STEP 6: Validation preview ────────────────────────────
-    print("\n[STEP 6] Hallucination validator (preview)...")
-    if api_key:
-        from validator import HallucinationValidator
-        val    = HallucinationValidator()
-        v_out  = val.validate(answer, context_str)
-        rate   = v_out.get("hallucination_rate", "?")
-        print(f"  Hallucination rate: {rate}")
-        print(f"  Verdict: {v_out.get('verdict','?')}")
-        for s in v_out.get("sentences", []):
-            icon = "✓" if s["label"] == "SUPPORTED" else "✗"
-            print(f"  {icon} [{s['label']}] {s['text'][:70]}...")
-    else:
-        print("  (Set GROQ_API_KEY to run validator)")
-        print("  Validator will label each sentence: SUPPORTED / UNSUPPORTED / CONTRADICTED")
-
-    # ── Save results ───────────────────────────────────────────
-    os.makedirs("results", exist_ok=True)
-    out = {
-        "query":              query,
-        "answer":             answer,
-        "retrieved_sources":  [m["title"] for _, m, _ in results],
-        "similarity_scores":  [round(s, 3) for _, _, s in results],
-        "selfcheck":          sc_result,
+    return {
+        "query": query,
+        "answer": answer,
+        "avg_retrieval_score": round(avg_score, 4),
+        "validator": val,
+        "selfcheck": sc,
+        "methods_agree": agreement,
     }
-    with open("results/week1_demo_output.json", "w") as f:
-        json.dump(out, f, indent=2)
-    print("\n✓ Results saved to results/week1_demo_output.json")
 
-    print("\n" + "=" * 65)
-    print("  WEEK 1 PIPELINE COMPLETE  ✓")
-    print("  Milestone 1 deliverables:")
-    print("    ✓ Dataset loaded")
-    print("    ✓ FAISS index built")
-    print("    ✓ Retrieval working")
-    print("    ✓ RAG generation working" if api_key else "    ⚠ RAG generation (needs GROQ_API_KEY)")
-    print("    ✓ Preliminary results saved")
-    print("=" * 65)
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Financial RAG + Hallucination Detection Pipeline"
+    )
+    parser.add_argument("--query",          type=str, default=None,
+                        help="Financial question to answer and validate")
+    parser.add_argument("--top_k",          type=int, default=3,
+                        help="Number of chunks to retrieve (default 3)")
+    parser.add_argument("--chunk_size",     type=int, default=250,
+                        help="Chunk size in words (default 250)")
+    parser.add_argument("--prompt_variant", type=str, default="strict",
+                        choices=["strict", "lenient", "chain_of_thought"],
+                        help="Validator prompt variant")
+    parser.add_argument("--n_selfcheck",    type=int, default=3,
+                        help="Number of SelfCheck samples (default 3)")
+    parser.add_argument("--no_bertscore",   action="store_true",
+                        help="Use Jaccard instead of BERTScore for SelfCheck")
+    parser.add_argument("--evaluate",       action="store_true",
+                        help="Run full 30-question evaluation + 3 ablation studies")
+    parser.add_argument("--compare_papers", action="store_true",
+                        help="Print comparison against SelfCheckGPT / Self-RAG / LRP4RAG")
+    args = parser.parse_args()
+
+    if not os.environ.get("GROQ_API_KEY"):
+        print("[ERROR] GROQ_API_KEY not set.")
+        print("  Get a free key at https://console.groq.com")
+        print("  Then: export GROQ_API_KEY='gsk_...'")
+        sys.exit(1)
+
+    if args.evaluate:
+        from evaluate import run_evaluation
+        run_evaluation()
+        if args.compare_papers:
+            from paper_comparison import load_our_results, print_comparison_table, save_comparison
+            our = load_our_results()
+            print_comparison_table(our)
+            save_comparison(our)
+        return
+
+    if args.compare_papers:
+        from paper_comparison import load_our_results, print_comparison_table, save_comparison
+        our = load_our_results()
+        print_comparison_table(our)
+        save_comparison(our)
+        return
+
+    query = args.query
+    if not query:
+        # interactive mode
+        print("No --query provided. Running demo queries.\n")
+        demo_queries = [
+            "What action did the RBI take regarding the repo rate?",
+            "What new regulations did SEBI introduce for F&O traders?",
+            "How did Reliance Industries perform in its most recent earnings report?",
+        ]
+        for q in demo_queries:
+            run_pipeline(
+                query=q,
+                top_k=args.top_k,
+                chunk_size=args.chunk_size,
+                prompt_variant=args.prompt_variant,
+                n_selfcheck=args.n_selfcheck,
+                use_bertscore=not args.no_bertscore,
+            )
+            print("\n" + "─" * 70 + "\n")
+    else:
+        run_pipeline(
+            query=query,
+            top_k=args.top_k,
+            chunk_size=args.chunk_size,
+            prompt_variant=args.prompt_variant,
+            n_selfcheck=args.n_selfcheck,
+            use_bertscore=not args.no_bertscore,
+        )
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Financial RAG Demo")
-    parser.add_argument("--query",  type=str, default="What did the RBI decide about interest rates?")
-    parser.add_argument("--sample", action="store_true", help="Use sample data")
-    args = parser.parse_args()
-    run_pipeline(args.query, args.sample)
+    main()

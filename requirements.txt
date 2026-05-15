@@ -1,17 +1,32 @@
-# ── Week 1 Core ──────────────────────────────────────────────
-datasets==2.19.1          # HuggingFace dataset downloader
-sentence-transformers==2.7.0  # text → embedding vectors
-faiss-cpu==1.9.0.post1    # vector similarity search (Facebook AI)
-groq==0.9.0               # free LLM API (Llama3 for free)
+# Financial RAG + Hallucination Detection
+# CS5202 — Generative AI & LLMs · Spring 2026
+# Pin versions for reproducibility
 
-# ── Week 2 additions (install these in week 2) ────────────────
-# bert-score==0.3.13       # BERTScore for SelfCheckGPT
-# langchain==0.2.5         # optional RAG framework wrapper
-
-# ── Utilities (always needed) ─────────────────────────────────
+# Core ML / Embedding
+sentence-transformers==3.0.1
+faiss-cpu==1.8.0
 numpy==1.26.4
-pandas==2.2.2
+
+# LLM API
+groq==0.9.0
+
+# Data
+datasets==2.20.0
+huggingface-hub==0.23.4
+
+# Utilities
+python-dotenv==1.0.1
+
+# Evaluation
+bert-score==0.3.13         # for Week 2 SelfCheckGPT with BERTScore
+scikit-learn==1.5.0        # for Cohen's kappa (cohen_kappa_score)
+
+# Visualization
 matplotlib==3.9.0
-tqdm==4.66.4
-reportlab==4.2.0          # create domain_note.pdf
-python-dotenv==1.0.1      # load GROQ_API_KEY from .env file
+
+# Report generation
+reportlab==4.2.2
+
+# Optional (for notebook exploration)
+# jupyter==1.0.0
+# pandas==2.2.2

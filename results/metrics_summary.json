@@ -1,0 +1,18 @@
+{
+  "n_questions": 30,
+  "avg_retrieval_score": 0.6369,
+  "min_retrieval_score": 0.536,
+  "max_retrieval_score": 0.728,
+  "avg_hallucination_rate": null,
+  "avg_support_rate": null,
+  "verdict_distribution": {
+    "MOCK_RESULT": 30
+  },
+  "avg_selfcheck_score": 1.0,
+  "selfcheck_signal_distribution": {
+    "LOW": 30
+  },
+  "agreement_rate": "N/A (mock)",
+  "n_comparable": 0,
+  "mock_mode": true
+}
