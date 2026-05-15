@@ -16,3 +16,6 @@ build/
 data/faiss_index.pkl.cs250.ov40
 data/financial_news.json
 data/
+
+# Ignore local notebook files containing API keys or outputs
+notebooks/
