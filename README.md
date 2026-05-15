@@ -147,19 +147,7 @@ python build_report.py                 # outputs results/report.pdf
 
 ---
 
-## Key Results (Final Evaluation)
 
-| Metric                   | Value | Target |
-| ------------------------ | ----- | ------ |
-| Avg retrieval similarity | 0.614 | ≥ 0.55 |
-| Avg hallucination rate   | 18.3% | < 20%  |
-| Avg support rate         | 81.7% | > 80%  |
-| Validator precision      | 0.78  | > 0.75 |
-| Validator recall         | 0.71  | > 0.70 |
-| SelfCheck consistency    | 0.741 | —      |
-| Method agreement         | 73.3% | —      |
-
----
 
 ## Research Papers Used
 
@@ -169,13 +157,8 @@ python build_report.py                 # outputs results/report.pdf
 4. **RAG** — Lewis et al., NeurIPS 2020 (arXiv:2005.11401) → pipeline foundation
 
 ---
-
-## Grading Checklist
-
-| Component              | Points | Status                            |
-| ---------------------- | ------ | --------------------------------- |
-| Domain Note + Research | 10     | ✓ domain_note.pdf                 |
-| Code Quality           | 20     | ✓ modular src/ scripts            |
-| Results & Experiments  | 30     | ✓ validator vs selfcheck ablation |
-| Analysis & Report      | 20     | Week 2                            |
-| Milestone Demos        | 20     | Live demo via main.py             |
+## Contributors
+1 Tanniru Varun - SE25MAID009
+2 Jitesh Reddy - SE25MAID020
+3  M. Mahesh - SE25MAID037
+4 M. Tridev - SE25MAID026
