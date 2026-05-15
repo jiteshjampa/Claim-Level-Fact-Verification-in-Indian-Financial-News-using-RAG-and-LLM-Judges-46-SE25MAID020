@@ -13,3 +13,6 @@ node_modules/
 dist/
 build/
 .env
+data/faiss_index.pkl.cs250.ov40
+data/financial_news.json
+data/
